@@ -135,6 +135,7 @@ def generate_launch_description():
         event_handler=OnProcessStart(
             target_action=controller_manager,
             on_start=[rplidar_spawner],
+        )
     )
 
     
