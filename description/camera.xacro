@@ -4,7 +4,7 @@
     <joint name="camera_joint" type="fixed">
         <parent link="chassis"/>
         <child link="camera_link"/>
-        <origin xyz="0.18 0 0.09" rpy="0 0 0"/>
+        <origin xyz="0.18 0 0.083" rpy="0 0 0"/>
     </joint>
 
     <link name="camera_link">
@@ -35,11 +35,12 @@
             <visualize>true</visualize>
             <update_rate>10</update_rate>
             <camera>
-                <horizontal_fov>1.089</horizontal_fov>
+                <!-- <horizontal_fov>1.089</horizontal_fov> -->
+                <horizontal_fov>2.792</horizontal_fov>
                 <image>
                     <format>R8G8B8</format>
-                    <width>640</width>
-                    <height>480</height>
+                    <width>1280</width>
+                    <height>720</height>
                 </image>
                 <clip>
                     <near>0.05</near>
