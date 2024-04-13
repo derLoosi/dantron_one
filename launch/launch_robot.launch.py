@@ -92,6 +92,13 @@ def generate_launch_description():
         arguments=["foxglove_bridge_launch.xml"],
     )
 
+    delayed_foxglove_spawner = RegisterEventHandler(
+        event_handler=OnProcessStart(
+            target_action=controller_manager,
+            on_start=[foxglove_spawner],
+        )
+    )
+
 
     # Code for delaying a node (I haven't tested how effective it is)
     # 
@@ -119,5 +126,5 @@ def generate_launch_description():
         delayed_controller_manager,
         delayed_diff_drive_spawner,
         delayed_joint_broad_spawner,
-        foxglove_spawner
+        delayed_foxglove_spawner
     ])
