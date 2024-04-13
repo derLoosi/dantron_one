@@ -39,7 +39,7 @@ def generate_launch_description():
     twist_mux = Node(
             package="twist_mux",
             executable="twist_mux",
-            parameters=[twist_mux_params],
+            parameters=[twist_mux_params],  
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
         )
 
@@ -47,6 +47,7 @@ def generate_launch_description():
 
 
     robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
+
 
     controller_params_file = os.path.join(get_package_share_directory(package_name),'config','my_controllers.yaml')
 
@@ -85,6 +86,12 @@ def generate_launch_description():
         )
     )
 
+    foxglove_spawner = Node(
+        package="foxglove_bridge",
+        executable="foxglove_bridge",
+        arguments=["foxglove_bridge_launch.xml"],
+    )
+
 
     # Code for delaying a node (I haven't tested how effective it is)
     # 
@@ -111,5 +118,6 @@ def generate_launch_description():
         twist_mux,
         delayed_controller_manager,
         delayed_diff_drive_spawner,
-        delayed_joint_broad_spawner
+        delayed_joint_broad_spawner,
+        foxglove_spawner
     ])
