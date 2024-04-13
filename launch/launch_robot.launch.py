@@ -99,6 +99,45 @@ def generate_launch_description():
         )
     )
 
+    camera_spawner = Node(
+            package='v4l2_camera',
+            executable='v4l2_camera_node',
+            output='screen',
+            namespace='camera',
+            parameters=[{
+                'image_size': [640,480],
+                'time_per_frame': [1, 10],
+                'camera_frame_id': 'camera_link_optical'
+                }]
+    )
+
+    delayed_camera_spawner = RegisterEventHandler(
+        event_handler=OnProcessStart(
+            target_action=controller_manager,
+            on_start=[camera_spawner],
+    )
+
+    rplidar_spawner = Node(
+            package='rplidar_ros',
+            executable='rplidar_composition',
+            output='screen',
+            parameters=[{
+                'serial_port': '/dev/serial/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.3:1.0-port0',
+                'serial_baudrate' : 115200,
+                'frame_id': 'laser_frame',
+                'angle_compensate': True,
+                'scan_mode': 'Standard'
+            }]
+        )
+
+    delayed_rplidar_spawner = RegisterEventHandler(
+        event_handler=OnProcessStart(
+            target_action=controller_manager,
+            on_start=[rplidar_spawner],
+    )
+
+    
+
 
     # Code for delaying a node (I haven't tested how effective it is)
     # 
@@ -126,5 +165,7 @@ def generate_launch_description():
         delayed_controller_manager,
         delayed_diff_drive_spawner,
         delayed_joint_broad_spawner,
-        delayed_foxglove_spawner
+        delayed_foxglove_spawner,
+        delayed_camera_spawner,
+        delayed_rplidar_spawner
     ])
